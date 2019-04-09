@@ -16,11 +16,14 @@ public class DroolsTest {
         KieContainer kContainer = ks.getKieClasspathContainer();
         KieSession kSession = kContainer.newKieSession();
 
-        Person john = new Person("john", 25);
+        Person john = new Person("John", 25);
         kSession.insert(john);
+        Person paul = new Person("Paul", 10);
+        kSession.insert(paul);
+
         int fired = kSession.fireAllRules();
-        
-        assertEquals(1, fired);
+
+        assertEquals(2, fired);
 
         kSession.dispose();
     }
