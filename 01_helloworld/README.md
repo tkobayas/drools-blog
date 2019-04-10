@@ -111,8 +111,8 @@ fireAllRules() でマッチしたルールが実行(fire)されます。戻り�
 では maven で実行してみましょう。
 
 ```
-cd 01_helloworld
-mvn clean test
+$ cd 01_helloworld
+$ mvn clean test
 ```
 
 アウトプットはこんな感じになるでしょう
