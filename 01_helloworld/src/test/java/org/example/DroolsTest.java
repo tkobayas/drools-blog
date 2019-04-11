@@ -13,19 +13,19 @@ public class DroolsTest {
     public void testHello() {
 
         KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        KieSession kSession = kContainer.newKieSession();
+        KieContainer kcontainer = ks.getKieClasspathContainer();
+        KieSession ksession = kcontainer.newKieSession();
 
         Person john = new Person("John", 25);
-        kSession.insert(john);
+        ksession.insert(john);
         Person paul = new Person("Paul", 10);
-        kSession.insert(paul);
+        ksession.insert(paul);
 
-        int fired = kSession.fireAllRules();
+        int fired = ksession.fireAllRules();
 
         assertEquals(2, fired);
 
-        kSession.dispose();
+        ksession.dispose();
     }
 
 }

@@ -1,5 +1,5 @@
 # 01 Drools HelloWorld
-こんにちは、これから Drools についていろいろと書いていこうと思います。基本的にはサンプルと共に、分かりやすい入門的なエントリを中心にしていく予定です。
+こんにちは、これから Drools についていろいろと書いていこうと思います。サンプルと共に、分かりやすい入門的なエントリを中心にしていく予定です。
 
 Drools というのはオープンソースのルールエンジンで、Java で書かれています。
 
@@ -24,6 +24,7 @@ end
 ```
 
 1つ目のルールは「12歳未満なら XXX する」
+
 2つ目のルールは「20歳以上なら YYY する」
 
 というものです。Java であれば
@@ -48,6 +49,8 @@ if (person.getAge() >= 20) {
 ```
 git clone https://github.com/tkobayas/drools-blog.git
 ```
+
+今日のエントリはその中の 01_helloworld です。
 
 ではソースコードを見てみましょう。
 
@@ -81,29 +84,29 @@ https://github.com/tkobayas/drools-blog/blob/master/01_helloworld/src/test/java/
 
 ```java
         KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        KieSession kSession = kContainer.newKieSession();
+        KieContainer kcontainer = ks.getKieClasspathContainer();
+        KieSession ksession = kcontainer.newKieSession();
 ```
 
 この3行は定型処理と思ってください。クラスパスにルールを置いた場合はこうなりますが、別の方法も後日紹介します。KieSession がユーザが使うエンジンインターフェースです。ksession と略されることもあります。
 
 ```java
         Person john = new Person("John", 25);
-        kSession.insert(john);
+        ksession.insert(john);
         Person paul = new Person("Paul", 10);
-        kSession.insert(paul);
+        ksession.insert(paul);
 ```
 
 2つの Person オブジェクトを ksession に insert します。Person はただの POJO です。ファクト(Fact) と呼ばれることもあります。
 
 ```java
-        int fired = kSession.fireAllRules();
+        int fired = ksession.fireAllRules();
         assertEquals(2, fired);
 ```
 fireAllRules() でマッチしたルールが実行(fire)されます。戻り値は実行されたルールの数です。
 
 ```java
-        kSession.dispose();
+        ksession.dispose();
 ```
 
 最後、dispose() は忘れないように呼んでください。ksession に紐づいたリソースを解放します。
