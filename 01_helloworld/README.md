@@ -91,9 +91,9 @@ https://github.com/tkobayas/drools-blog/blob/master/01_helloworld/src/test/java/
 この3行は定型処理と思ってください。クラスパスにルールを置いた場合はこうなりますが、別の方法も後日紹介します。KieSession がユーザが使うエンジンインターフェースです。ksession と略されることもあります。
 
 ```java
-        Person john = new Person("John", 25);
+        Person john = new Person("ジョン", 25);
         ksession.insert(john);
-        Person paul = new Person("Paul", 10);
+        Person paul = new Person("ポール", 10);
         ksession.insert(paul);
 ```
 
@@ -124,8 +124,8 @@ $ mvn clean test
 ...
 Running org.example.DroolsTest
 ...
-Hello Child, Paul
-Hello Adult, John
+Hello Child, ポール
+Hello Adult, ジョン
 ...
 ```
 

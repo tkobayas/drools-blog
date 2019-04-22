@@ -16,9 +16,9 @@ public class DroolsTest {
         KieContainer kcontainer = ks.getKieClasspathContainer();
         KieSession ksession = kcontainer.newKieSession();
 
-        Person john = new Person("John", 25);
+        Person john = new Person("ジョン", 25);
         ksession.insert(john);
-        Person paul = new Person("Paul", 10);
+        Person paul = new Person("ポール", 10);
         ksession.insert(paul);
 
         int fired = ksession.fireAllRules();
