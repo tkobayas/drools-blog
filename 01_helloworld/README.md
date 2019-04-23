@@ -7,7 +7,7 @@ https://www.drools.org/
 
 ルールエンジンとは、簡単に言うとインプットをルールに基づいて処理してアウトプットする、というエンジンです。あ、普通のプログラミングと同じですね？そうです、では普通の手続き型プログラミング言語（例えば Java）とどう違うかというと、ルールは宣言的(Declarative)に書かれる、ということです。例えばこのルールを見てください。
 
-```
+```java
 rule "Hello Child"
     when
         $p : Person( age < 12 )
@@ -42,7 +42,7 @@ if (person.getAge() >= 20) {
 
 ルールエンジンの場合、最適化はエンジンがやってくれます。ユーザは単純にルールを並列に並べるだけです。(もちろん「順番」がルール上必要な場合はいくつかの手段、文法があります。それはまた後日)
 
-さて、1エントリに長々とした説明は入れないつもりですので早速 HelloWorld しましょう。
+さて、概要はこのくらいにして早速 HelloWorld しましょう。
 
 サンプルコードはこちらから clone してください。
 
@@ -57,7 +57,7 @@ git clone https://github.com/tkobayas/drools-blog.git
 まずルールです。
 
 https://github.com/tkobayas/drools-blog/blob/master/01_helloworld/src/main/resources/org/example/Sample.drl
-```
+```java
 package org.example
  
 import org.example.Person;
@@ -78,7 +78,7 @@ end
 ```
 これは DRL (Drools Rule Language) という言語で書かれています。新しい言語を覚えるというと若干ハードルが高いですが、結構簡単です。見た通り、"when"に条件を書き、"then"に結果を書くだけです。"then"のところは普通の Java で書けます。"$p" はバインド変数です。マッチした Person を "then" で参照できます。
 
-ではこのルールをどう実行するかというと、
+ではこのルールをどう実行するかというと、こちらの Java コードを見てください。
 
 https://github.com/tkobayas/drools-blog/blob/master/01_helloworld/src/test/java/org/example/DroolsTest.java
 
@@ -88,7 +88,7 @@ https://github.com/tkobayas/drools-blog/blob/master/01_helloworld/src/test/java/
         KieSession ksession = kcontainer.newKieSession();
 ```
 
-この3行は定型処理と思ってください。クラスパスにルールを置いた場合はこうなりますが、別の方法も後日紹介します。KieSession がユーザが使うエンジンインターフェースです。ksession と略されることもあります。
+この3行は定型処理と思ってください。クラスパスにルールを置いた場合はこうなりますが、別の方法も後日紹介します。KieSession が、ユーザが使うエンジンインターフェースです。ksession と略されることもあります。
 
 ```java
         Person john = new Person("ジョン", 25);
