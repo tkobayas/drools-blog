@@ -21,7 +21,7 @@ public class DroolsTest {
     @Test
     public void testHello() throws ParseException, IOException {
 
-        // デフォルトの dataformat は "dd-MMM-yyyy" (例: "01-Apr-2019") なので変更する
+        // デフォルトの dateformat は "dd-MMM-yyyy" (例: "01-Apr-2019") なので変更する
         System.setProperty("drools.dateformat", DATE_FORMAT);
 
         KieServices ks = KieServices.Factory.get();
@@ -36,7 +36,7 @@ public class DroolsTest {
         KieSession ksession = kcontainer.newKieSession();
 
         System.out.println();
-        System.out.println("*** ルール実行開始 ***");
+        System.out.println("+++ ルール実行開始 +++");
         
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         Date memberRegisterDate = sdf.parse("2019/04/11");
@@ -52,9 +52,9 @@ public class DroolsTest {
         int fired = ksession.fireAllRules();
         assertEquals(2, fired);
 
-        System.out.println("-----------------------------------------");
+        System.out.println("======================================");
         System.out.println("お買い上げにより、 " + order.getTotalPoint() + " ポイントが付与されます");
-        System.out.println("-----------------------------------------");
+        System.out.println("======================================");
 
         ksession.dispose();
     }

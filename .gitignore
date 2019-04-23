@@ -9,4 +9,5 @@ tmp.log
 .metadata
 .recommenders/
 bin/
+*xls#
 
