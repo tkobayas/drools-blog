@@ -7,6 +7,7 @@
   <groupId>org.example</groupId>
   <artifactId>drools-hello-kjar</artifactId>
   <version>1.0.0</version>
+  <packaging>kjar</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
