@@ -12,7 +12,6 @@ public class Order {
 
     private BigDecimal pointRate; // ポイント率(パーセント)
     private int extraPoint; // 特別追加ポイント
-    private int totalPoint; // 最終計算結果ポイント
 
     public Order() {
     }
@@ -23,7 +22,6 @@ public class Order {
         this.itemPrice = itemPrice;
         this.pointRate = new BigDecimal("0.0");
         this.extraPoint = 0;
-        this.totalPoint = 0;
     }
 
     public Person getConsumer() {
