@@ -56,20 +56,12 @@ public class Order {
         this.pointRate = pointRate;
     }
 
-    public void addPointRate(String rate) {
-        this.pointRate = this.pointRate.add(new BigDecimal(rate));
-    }
-
     public int getExtraPoint() {
         return extraPoint;
     }
 
     public void setExtraPoint(int extraPoint) {
         this.extraPoint = extraPoint;
-    }
-
-    public void addExtraPoint(int point) {
-        this.extraPoint += point;
     }
 
     public int getTotalPoint() {

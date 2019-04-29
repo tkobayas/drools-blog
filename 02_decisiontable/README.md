@@ -16,7 +16,7 @@ rule "PointCalc_11"
 	when
 		$o : Order(consumer.card == MembershipCard.NORMAL)
 	then
-		$o.addPointRate("1.0");
+		$o.setPointRate($o.getPointRate().add(new BigDecimal("1.0")));
 end
 ...
 ```

@@ -11,4 +11,5 @@ tmp.log
 bin/
 *xls#
 memo.txt
+*.orig
 
