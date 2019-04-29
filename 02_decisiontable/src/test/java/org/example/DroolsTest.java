@@ -4,8 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.drools.decisiontable.InputType;
 import org.drools.decisiontable.SpreadsheetCompiler;
@@ -16,13 +15,11 @@ import org.kie.api.runtime.KieSession;
 
 public class DroolsTest {
 
-    private static final String DATE_FORMAT = "yyyy/MM/dd";
-
     @Test
     public void testHello() throws ParseException, IOException {
 
         // デフォルトの dateformat は "dd-MMM-yyyy" (例: "01-Apr-2019") なので変更する
-        System.setProperty("drools.dateformat", DATE_FORMAT);
+        System.setProperty("drools.dateformat", "yyyy-MM-dd");
 
         KieServices ks = KieServices.Factory.get();
 
@@ -37,9 +34,8 @@ public class DroolsTest {
 
         System.out.println();
         System.out.println("+++ ルール実行開始 +++");
-        
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        Date memberRegisterDate = sdf.parse("2019/04/11");
+
+        LocalDate memberRegisterDate = LocalDate.parse("2019-04-11");
 
         Person john = new Person("ジョン", memberRegisterDate, MembershipCard.SILVER);
         System.out.println("insert : " + john);
@@ -55,6 +51,8 @@ public class DroolsTest {
         System.out.println("======================================");
         System.out.println("お買い上げにより、 " + order.getTotalPoint() + " ポイントが付与されます");
         System.out.println("======================================");
+        
+        assertEquals(6000, order.getTotalPoint());
 
         ksession.dispose();
     }

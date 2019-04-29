@@ -1,19 +1,19 @@
 package org.example;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Person {
 
     private String name;
 
-    private Date memberCreatedAt; // メンバー登録日
+    private LocalDate memberCreatedAt; // メンバー登録日
 
     private MembershipCard card;
 
     public Person() {
     }
 
-    public Person(String name, Date memberCreatedAt, MembershipCard card) {
+    public Person(String name, LocalDate memberCreatedAt, MembershipCard card) {
         this.name = name;
         this.memberCreatedAt = memberCreatedAt;
         this.card = card;
@@ -35,11 +35,11 @@ public class Person {
         this.card = card;
     }
 
-    public Date getMemberCreatedAt() {
+    public LocalDate getMemberCreatedAt() {
         return memberCreatedAt;
     }
 
-    public void setMemberCreatedAt(Date memberCreatedAt) {
+    public void setMemberCreatedAt(LocalDate memberCreatedAt) {
         this.memberCreatedAt = memberCreatedAt;
     }
 

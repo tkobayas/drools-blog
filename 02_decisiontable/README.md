@@ -58,9 +58,9 @@ https://github.com/tkobayas/drools-blog/blob/master/02_decisiontable/src/test/ja
 
 ```java
         // デフォルトの dateformat は "dd-MMM-yyyy" (例: "01-Apr-2019") なので変更する
-        System.setProperty("drools.dateformat", DATE_FORMAT);
+       System.setProperty("drools.dateformat", "yyyy-MM-dd");
 ```
-まず日付フォーマットは日本向け ("yyyy/MM/dd") に変更しておきます。ソースコメントのとおりです。
+まず日付フォーマットは日本向け ("yyyy-MM-dd") に変更しておきます。ソースコメントのとおりです。
 
 ```java
         SpreadsheetCompiler compiler = new SpreadsheetCompiler();
@@ -94,11 +94,9 @@ $ mvn clean test
 ...
 
 +++ ルール実行開始 +++
-insert : Person [name=ジョン, memberCreatedAt=Thu Apr 11 00:00:00 JST 2019, card=SILVER]
+insert : Person [name=ジョン, memberCreatedAt=2019-04-11, card=SILVER]
 insert : Order [consumer=ジョン, itemName=ギター, itemPrice=200000]
 ======================================
 お買い上げにより、 6000 ポイントが付与されます
-======================================
 ```
 200000*0.025+1000=6000ですね。
-
