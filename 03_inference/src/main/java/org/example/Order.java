@@ -69,6 +69,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order [consumer=" + consumer.getName() + ", itemName=" + itemName + ", itemPrice=" + itemPrice + "]";
+        return "Order [consumer=" + consumer.getName() + ", itemName=" + itemName + ", itemPrice=" + itemPrice + ", specialPointOrder=" + specialPointOrder + "]";
     }
 }
