@@ -1,7 +1,7 @@
 # 04 ステートレス ksession
 ここまで、普通の ksession つまり ステートフル ksession を使ってきましたが、今回は ステートレス ksession の使い方です。
 
-ステートレス ksession とは、「ステートフル ksession のラッパーで、insert, fireAllrules, dispose をまとめてやってくれる便利クラス」です。「まとめてやって、終わってくれる」ので、ユーザが ksession の状態（ステート）を気にする必要はありません。
+ステートレス ksession とは、「ステートフル ksession のラッパーで、insert, fireAllrules, dispose をまとめてやってくれる便利クラス」です。「まとめてやって、終わってくれる」ので、ユーザが ksession の状態（ステート）を気にする必要はありません。(StatelessKieSession オブジェクト自体に状態が無いわけではないので、名前がちょっとミスリーディングなんですけど｡｡｡)
 
 サンプルではステートフル ksession を使うことが多いのですが、実際のユースケースでは ステートレス ksession で十分な場合が多く、またそのほうがコードも簡潔になるのでおすすめです。
 
