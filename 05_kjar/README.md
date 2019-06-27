@@ -70,8 +70,10 @@ pom.xml をちょっと見ておきましょう。
 
 これで KJAR が Maven ローカルリポジトリ (~/.m2/repository/) にインストールされます。ローカルリポジトリにあるので、次のクライアントコードは Maven 経由でこの jar を見つけることができます。
 
+```
 $ cd ../drools-hello-client
 $ mvn clean test
+```
 
 ```java
         KieServices ks = KieServices.Factory.get();
@@ -87,4 +89,4 @@ Hello Adult, ジョン
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.715 sec
 ```
 
-KJAR をアプリケーションから分離することで、アプリケーションを変更/再デプロイせずにルールだけ更新する、という利用が可能になります。
+KJAR をアプリケーションから分離することで、アプリケーションを変更/再デプロイせずにルールだけ更新する、という運用が可能になります。
