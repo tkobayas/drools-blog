@@ -54,7 +54,7 @@ pom.xml をちょっと見ておきましょう。
   </build>
 ```
 
-このように <packaging> を kjar を指定し、<build> に kie-maven-plugin を設定します。
+このように <packaging\> に kjar を指定し、<build\> に kie-maven-plugin を設定します。
 
 また、 src/java/resources 下に META-INF/kmodules.xml が必要です。
 
