@@ -24,8 +24,7 @@ $ cd 05_kjar
 $ cd drools-hello-kjar
 $ mvn clean install
 ```
-
-これで KJAR が Maven ローカルリポジトリ (~/.m2/repository/) にインストールされます。pom.xml をちょっと見ておきましょう。
+pom.xml をちょっと見ておきましょう。
 
 ```xml
   <groupId>org.example</groupId>
@@ -54,3 +53,38 @@ $ mvn clean install
     </plugins>
   </build>
 ```
+
+このように <packaging> を kjar を指定し、<build> に kie-maven-plugin を設定します。
+
+また、 src/java/resources 下に META-INF/kmodules.xml が必要です。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
+</kmodule>
+```
+
+ここに kbase や ksession に関する設定が書けますが、とりあえず上記のように空っぽでも大丈夫です。
+
+生成される jar は基本的に普通の jar と変わりませんが、ルールのコンパイルなどを行い、エラーチェックをしてくれます。
+
+これで KJAR が Maven ローカルリポジトリ (~/.m2/repository/) にインストールされます。ローカルリポジトリにあるので、次のクライアントコードは Maven 経由でこの jar を見つけることができます。
+
+$ cd ../drools-hello-client
+$ mvn clean test
+
+```java
+        KieServices ks = KieServices.Factory.get();
+        ReleaseId releaseId = ks.newReleaseId("org.example", "drools-hello-kjar", "1.0.0");
+        KieContainer kcontainer = ks.newKieContainer(releaseId);
+        KieSession ksession = kcontainer.newKieSession();
+```
+このように、getKieClasspathContainer() の代わりに GAV を指定して KieContainer を生成します。後は同じです。
+
+```
+Hello Child, ポール
+Hello Adult, ジョン
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.715 sec
+```
+
+KJAR をアプリケーションから分離することで、アプリケーションを変更/再デプロイせずにルールだけ更新する、という利用が可能になります。
