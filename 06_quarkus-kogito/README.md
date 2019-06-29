@@ -26,9 +26,9 @@ cd quarkus-quickstarts/using-kogito
 2019-06-28 17:49:15,946 INFO  [io.quarkus] (main) Quarkus 0.18.0 started in 3.015s. Listening on: http://[::]:8080
 ```
 
-REST アクセスでアプリを動作させます。上記ガイドにある業務プロセスの図に沿って動作します。
+REST アクセスでアプリを動作させます。Droolsによるルール、jBPMによるプロセスに沿って動作します。詳しくは上記ガイドを参照してください。"using-kogito" の中のソースを見れば分かりますが、とてもシンプルです。
 
-1. Person を POST します。20才なのでルールで Adult と判定され、プロセスを通過して終了します。
+1) Person を POST します。20才なのでルールで Adult と判定され、プロセスを通過して終了します。
 ```
 curl -X POST http://localhost:8080/persons \
     -H 'content-type: application/json' \
@@ -36,13 +36,13 @@ curl -X POST http://localhost:8080/persons \
     -d '{"person": {"name":"John Quark", "age": 20}}'
 ```
 
-2. アクティブなプロセスを GET します。先程のプロセスは終了したのでレスポンスは空です。
+2) アクティブなプロセスを GET します。先程のプロセスは終了したのでレスポンスは空です。
 ```
 curl -X GET http://localhost:8080/persons \
     -H 'content-type: application/json' \
     -H 'accept: application/json'
 ```
-3. 別の Person を POST します。15才なのでルールで Child と判定され、"Special handling for children" タスクで停止します。
+3) 別の Person を POST します。15才なのでルールで Child と判定され、"Special handling for children" タスクで停止します。
 ```
 curl -X POST http://localhost:8080/persons \
     -H 'content-type: application/json' \
@@ -50,7 +50,7 @@ curl -X POST http://localhost:8080/persons \
     -d '{"person": {"name":"Jenny Quark", "age": 15}}'
 ```
 
-4. もう一度 GET で確認すると id:2 のアクティブなプロセスインスタンスがあることがわかります。
+4) もう一度 GET で確認すると id:2 のアクティブなプロセスインスタンスがあることがわかります。
 ```
 curl -X GET http://localhost:8080/persons \
     -H 'content-type: application/json' \
@@ -59,7 +59,7 @@ curl -X GET http://localhost:8080/persons \
 ```
 [{"id":2,"person":{"adult":false,"age":15,"name":"Jenny Quark"}}]
 ```
-5. 以下の POST でタスクを complete します。プロセスが進行し、終了します。
+5) 以下の POST でタスクを complete します。プロセスが進行し、終了します。
 ```
 curl -X POST http://localhost:8080/persons/2/ChildrenHandling/1 \
     -H 'content-type: application/json' \
@@ -91,6 +91,6 @@ using-kogito ディレクトリで以下のコマンドを実行します。ビ�
 4ms で起動。爆速ですねー
 ```
 2019-06-29 12:56:18,984 INFO  [io.quarkus] (main) Quarkus 0.18.0 started in 0.004s. Listening on: http://[::]:8080
-````
+```
 
 さっきと同じ REST で動作します。
