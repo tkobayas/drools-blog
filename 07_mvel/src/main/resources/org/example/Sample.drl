@@ -1,0 +1,12 @@
+package org.example
+ 
+import org.example.Person;
+
+dialect "mvel"
+
+rule "昇給"
+    when
+        $p : Person( age >= 26 )
+    then
+        $p.salary = $p.salary + 50000;
+end
