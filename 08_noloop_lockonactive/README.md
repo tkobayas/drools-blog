@@ -46,9 +46,10 @@ end
 ```
 2つのルールに「extraPoint < 20000」という条件が足されています。20000以上のエクストラポイントのオーダーはマッチしないようにしよう、ということです。さて、この場合ルールが実行されると extraPoint が更新されるのでルールが再度ヒットします。試してみましょう。
 
-$ mvn test
-
 ```
+$ mvn test
+...
+
 insert : Person [name=ジョン, memberCreatedAt=2019-04-11]
 insert : Order [consumer=ジョン, itemName=ギター, itemPrice=200000, specialPointOrder=false]
 実行 : 春のキャンペーン
