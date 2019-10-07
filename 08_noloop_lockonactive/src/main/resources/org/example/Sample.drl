@@ -1,0 +1,33 @@
+package org.example;
+import org.example.Person;
+import org.example.Order;
+
+rule "春のキャンペーン"
+    //no-loop true
+    //lock-on-active true
+    when
+        $o : Order(consumer.memberCreatedAt >= "2019-04-01" && consumer.memberCreatedAt <=  "2019-04-30", extraPoint < 20000)
+    then
+        System.out.println("実行 : " + kcontext.getRule().getName());
+        $o.setExtraPoint($o.getExtraPoint() + 2000);
+        update($o);
+end
+
+rule "高額商品キャンペーン"
+    //no-loop true
+    //lock-on-active true
+    when
+    $o : Order(itemPrice > 100000, extraPoint < 20000)
+    then
+        System.out.println("実行 : " + kcontext.getRule().getName());
+        $o.setExtraPoint($o.getExtraPoint() + 4000);
+        update($o);
+end
+
+rule "大量ポイント獲得オーダー"
+    when
+        $o : Order(extraPoint > 5000)
+    then
+        System.out.println("実行 : " + kcontext.getRule().getName());
+        $o.setSpecialPointOrder(true);
+end
