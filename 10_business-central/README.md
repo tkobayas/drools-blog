@@ -21,11 +21,11 @@ Drools には Business Central という強力な Web UI ツールが付いて�
 
 こちらのリンクの「Business Central Workbench」から「WildFly 14 WAR」をダウンロードします。
 
-https://www.drools.org/download/download.html
+[https://www.drools.org/download/download.html]
 
 WildFly 本体はこちらからダウンロードします。（EAP でも OK です）
 
-https://wildfly.org/downloads/
+[https://wildfly.org/downloads/]
 
 最新の WildFly 18.0.1.Final でも動作しましたが、ちょっとエラーが出るようです。今回は 14.0.1.Final でやります。「14.0.1.Final」の「Java EE Full & Web Distribution」をダウンロードします。
 
@@ -80,18 +80,15 @@ http://localhost:8080/business-central-7.32.0.Final-wildfly14
 ```
 
 先ほど作ったユーザでログインします。
-
-[image01]
+[f:id:tokobayashi:20200207155133p:plain]
 
 まず最初に日本語UIに変更しておきましょう。右上の歯車アイコンをクリックし、Settings メニューから「Languages」をクリック、セレクトボックスから「Japanese」を選んで OK をクリックしてください。
-
-[image02]
+[f:id:tokobayashi:20200207155153p:plain]
 
 日本語になりましたね！
 
 ではプロジェクトを作っていきましょう。 [メニュー]->[プロジェクト] をクリックすると「スペース」という画面になります。スペースというのは複数のプロジェクトをまとめる単位です。デフォルトで「MySpace」というスペースがあるのでそれを使います。「MySpace」をクリックすると｡｡｡
-
-[image04]
+[f:id:tokobayashi:20200207155210p:plain]
 
 どーんと「ここには何もありません」と表示されますね。「プロジェクトの追加」からプロジェクトを作成します。ちなみに「サンプルを試す」で様々なサンプルを見ることができます。ルール関連だと「Mortgages」サンプルがおすすめです。
 
@@ -101,18 +98,20 @@ http://localhost:8080/business-central-7.32.0.Final-wildfly14
 データオブジェクトを作ってみましょう。「アセットの追加」をクリックします。様々なアセットを作成できます。「データオブジェクト」をクリックするとポップアップが出ます。データオブジェクト名を Person 、パッケージを com.myspace.helloproject とし、OK をクリックします。
 
 この画面でデータオブジェクトのフィールドを追加できます。「フィールドを追加」から
+
 - name を String
 - age を int
 - adult を boolean
+
  ｡｡｡ と追加していきます。最後に「保存」を忘れずに！
 
 「ソース」タブをクリックすればわかるように、これは単純に Java ソースを作ってくれるものです。この画面でデータオブジェクトを作成する以外にも、別途必要なクラスを持った jar ファイルを dependency に設定することでそのクラスをルールで使えます。
-
-[image08]
+[f:id:tokobayashi:20200207155236p:plain]
 
 続いてルールを書きます。
 
 「アセットの追加」（プロジェクトが空っぽじゃないときは右上にボタンがあるよ！）をクリックして「ガイド付きルール」を選択します。ルール名は helloPerson 、パッケージは com.myspace.helloproject とします。「ガイド付きルール」というのは GUI でルールを書くというものです。右端の方にあるプラスアイコンをクリックして WHEN や THEN の中身を追加していきます。まず WHEN のプラスアイコンをクリック、「条件をルールに追加...」から「Person」を選択します。するとルールに「Person があります」という文が追加されます。そこから詳細を設定していきます。
+
 - 「Person があります」をクリック、「フィールドに制限を追加」 -> age を選択
 - age の右のセレクトボックスから「は次の値よりも大きい」を選択
 - その右のえんぴつアイコンをクリック -> 「固定値」をクリック
@@ -120,8 +119,7 @@ http://localhost:8080/business-central-7.32.0.Final-wildfly14
 - 「Person があります」をクリック、「変数名」のテキストボックスに $p を入力し「設定」をクリック
 
 続いて THEN のプラスアイコンをクリック、「$p のフィールド値を変更」を選択、「Person [$p] の値 設定」という文が追加されるのでそれをクリックし、セレクトボックスから adult を追加し、値に true を選択します。最後に「保存」。
-
-[image09]
+[f:id:tokobayashi:20200207155252p:plain]
 
 「ソース」タブを見ればわかるように、これは DRL を作成してくれます。
 
@@ -137,6 +135,6 @@ http://localhost:8080/business-central-7.32.0.Final-wildfly14
 - 保存
 - メニュー中央の三角（再生）ボタンをクリック！右側に結果が出ます。テストシナリオでルールが正しく動いていることを検証できました。
 
-[image10]
+[f:id:tokobayashi:20200207155308p:plain]
 
 Business Central の機能はまだまだたくさんありますが、今回はここまで！
