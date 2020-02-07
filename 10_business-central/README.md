@@ -57,9 +57,9 @@ yes/no? yes
 また WildFly デフォルトの -Xmx と -XX:MaxMetaspaceSize は少ないのでそれぞれ 2G くらいに増やしておきます。
 
 bin/standalone.conf
-~~~
+```
    JAVA_OPTS="-Xms64m -Xmx2g -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=2g -Djava.net.preferIPv4Stack=true"
-~~~
+```
 
 では WildFly を起動します。
 
@@ -79,21 +79,19 @@ $ ./standalone.sh
 http://localhost:8080/business-central-7.32.0.Final-wildfly14
 ```
 
-[image]
-
 先ほど作ったユーザでログインします。
 
-[image]
+[image01]
 
-まず最初に日本語UIに変更しておきましょう。右上の歯車アイコンをクリックし、Settings メニューから「Languages」をクリック、セレクトボックスから「Japanese」を選んでください。
+まず最初に日本語UIに変更しておきましょう。右上の歯車アイコンをクリックし、Settings メニューから「Languages」をクリック、セレクトボックスから「Japanese」を選んで OK をクリックしてください。
 
-[image]
+[image02]
 
 日本語になりましたね！
 
 ではプロジェクトを作っていきましょう。 [メニュー]->[プロジェクト] をクリックすると「スペース」という画面になります。スペースというのは複数のプロジェクトをまとめる単位です。デフォルトで「MySpace」というスペースがあるのでそれを使います。「MySpace」をクリックすると｡｡｡
 
-[image]
+[image04]
 
 どーんと「ここには何もありません」と表示されますね。「プロジェクトの追加」からプロジェクトを作成します。ちなみに「サンプルを試す」で様々なサンプルを見ることができます。ルール関連だと「Mortgages」サンプルがおすすめです。
 
@@ -108,9 +106,9 @@ http://localhost:8080/business-central-7.32.0.Final-wildfly14
 - adult を boolean
  ｡｡｡ と追加していきます。最後に「保存」を忘れずに！
 
-「ソース」タブをクリックすればわかるように、これは単純に Java ソースを作ってくれるものです。この画面でデータオブジェクトを作成しなくても、別途必要なクラスを持った jar ファイルを dependency に設定すればそのクラスをルールで使えます。
+「ソース」タブをクリックすればわかるように、これは単純に Java ソースを作ってくれるものです。この画面でデータオブジェクトを作成する以外にも、別途必要なクラスを持った jar ファイルを dependency に設定することでそのクラスをルールで使えます。
 
-[image]
+[image08]
 
 続いてルールを書きます。
 
@@ -123,22 +121,22 @@ http://localhost:8080/business-central-7.32.0.Final-wildfly14
 
 続いて THEN のプラスアイコンをクリック、「$p のフィールド値を変更」を選択、「Person [$p] の値 設定」という文が追加されるのでそれをクリックし、セレクトボックスから adult を追加し、値に true を選択します。最後に「保存」。
 
-[image]
+[image09]
 
 「ソース」タブを見ればわかるように、これは DRL を作成してくれます。
 
 続いてテストシナリオを書きます。「アセットの追加」->「テストシナリオ」、名前は testscenario1 、パッケージは com.myspace.helloproject とします。
 
 - 「GIVEN」列の「INSTANCE1」をクリック、右の「テストツール」パネルから「Person」を選択、「Insert Data Object」をクリック
-- すると「INSTANCE1」が「Person」に変化し、その下のセルが「expression</>」になる。そのセルをクリックし、「テストツール」パネルから name を選択、「Insert Data Object」をクリック
+- すると「INSTANCE1」が「Person」に変化します。次はその下のセルをクリックし、「テストツール」パネルから name を選択、「Insert Data Object」をクリック
 - するとそのセルが「name」に変化。そのセルを右クリックし、「右に列を挿入」を選択
 - すると右にセルが増えるので、同様に「テストツール」パネルから age を選択、「Insert Data Object」をクリック
 - 「EXPECT」列も同様に INSTANCE を「Person」に、PROPERTY は「adult」を指定（列は増やさない）
-- 1行目は name「太郎」、age「35」、false「true」で、値を入力
+- 1行目は name「太郎」、age「35」、adult「true」で、値を入力
 - 右クリック「行を下に挿入」で行を増やせるので2行目は name「次郎」、age「18」、adult「false」にする
 - 保存
 - メニュー中央の三角（再生）ボタンをクリック！右側に結果が出ます。テストシナリオでルールが正しく動いていることを検証できました。
 
-[image]
+[image10]
 
 Business Central の機能はまだまだたくさんありますが、今回はここまで！
