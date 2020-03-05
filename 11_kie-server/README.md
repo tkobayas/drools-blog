@@ -9,13 +9,13 @@
 
 などなど。
 
-Kie Server はアプリケーションサーバーにデプロイし、ルールエンジンサーバーとして動作します。クライアントは REST API でファクトをインサート、ルール実行、結果の取得を行います。ルールエンジンを Kie Server 側にすることでクライアントは CPU/メモリ消費を分離、軽量化することができます。
+Kie Server はアプリケーションサーバーにデプロイすることで、ルールエンジンサーバーとして動作します。クライアントは REST API でファクトをインサート、ルール実行、結果の取得を行います。ルールエンジンを Kie Server 側にすることでクライアントは CPU/メモリ消費を分離、軽量化することができます。
 
 Kie Server は単独でも利用可能ですが、Business Central により GUI 管理することができます。Kie Server と Business Central は異なるサーバーで運用可能で、本番稼動時にはそのほうがおすすめですが、開発時には同一サーバーで利用もできます。
 
 では使ってみましょう。
 
-前回 [link] 10 Business Central で使った WildFly に Kie Server をデプロイしていきます。WildFly + Business Central のセットアップは前回記事を参照してください！
+前回 [10 Business Central](https://tokobayashi.hatenablog.com/entry/2020/02/07/155603) で使った WildFly に Kie Server をデプロイしていきます。WildFly + Business Central のセットアップは前回記事を参照してください！
 
 こちらのリンクの「KIE Server WARS」から「ee7, ee8, webc WAR」をクリックし、kie-server-7.XX.0.Final-ee8.war をダウンロードします。
 
@@ -33,8 +33,8 @@ wildfly-14.0.1.Final/standalone/deployments の下に WAR をコピーします�
 
 アクセス時の URL を簡単にするために WAR 名を変更します。必須ではないですが、変更しない場合、以下の説明の URL は適宜読み替えて下さい。
 
-business-central-7.32.0.Final-wildfly14.war -> business-central.war
-kie-server-7.32.0.Final-ee8.war -> kie-server.war
+- business-central-7.32.0.Final-wildfly14.war -> business-central.war
+- kie-server-7.32.0.Final-ee8.war -> kie-server.war
 
 2) システムプロパティ
 
@@ -65,7 +65,7 @@ $ ./standalone.sh -c standalone-full.xml
 ...
 ```
 
-まずは Business Central が Kie Server を認識しているか確認します。
+まずは Business Central が Kie Server を認識しているか確認してみましょう。
 
 ```
 http://localhost:8080/business-central/
@@ -73,27 +73,27 @@ http://localhost:8080/business-central/
 
 [メニュー]->[デプロイ]->[実行サーバー] で確認できます。"default-kieserver" が見えるはずです。この名前はシステムプロパティで設定したものです。
 
-image 04
+[f:id:tokobayashi:20200305160150p:plain]
 
 さて、前回記事でプロジェクト helloProject を作っていたのでそれをデプロイします。プロジェクトが無い人は前回記事を参考に作ってください（テストシナリオは不要です）。
 
-そしてデプロイ前に1点、プロジェクトに追加することがあります。それはステートレス ksession を設定することです。「実行して結果を受け取って終了」というユースケースではステートレス ksession のほうが適切です。また Kie Server ではそのような使い方が推奨です。Kie Server でステートフル ksession を使うことも可能ですが、障害時のハンドリングなどが困難になります。ステートレス ksession については [link] 04 ステートレス ksession をご覧ください。
+そしてデプロイ前に1点、プロジェクトに追加することがあります。それはステートレス ksession を設定することです。「実行して結果を受け取って終了」というユースケースではステートレス ksession のほうが適切です。また Kie Server ではそのような使い方が推奨です。Kie Server でステートフル ksession を使うことも可能ですが、障害時のハンドリングなどが困難になります。ステートレス ksession については [04 ステートレス ksession](https://tokobayashi.hatenablog.com/entry/2019/05/15/174642) をご覧ください。
 
-さてステートレス ksession の設定ですが、Business Central で
+さてステートレス ksession の設定ですが、Business Central で以下のように進めます。
 
 - プロジェクトの [設定]タブ -> [KIE bases] から「KIE ベースの追加」をクリック
 - 名前に「mykbase」と入力
 - その kbase 設定の右のほうに「KIE sessions」というリンクがあるのでそれをクリック
 - ポップアップが出るので、「KIE session を追加」をクリック
 - 名前に「myksession」と入力
-image 05
+[f:id:tokobayashi:20200305160155p:plain]
 - その右のボックスにはデフォルトで「stateless」とあるのでそのままでOK
 - 「完了」をクリック。ポップアップが閉じる
 - 左下の「保存」をクリック
 
 ここまで来たらビルドして Kie Server にデプロイします。右上の「デプロイ」ボタンをクリックしてください。成功すれば「サーバー設定へのデプロイに成功し、コンテナの開始に成功しました。」というポップアップがでます。「helloProject_1.0.0-SNAPSHOT」という名前のデプロイメントユニット（コンテナとも呼ばれます）が作成され、開始されていることも確認できます。
 
-image 06
+[f:id:tokobayashi:20200305160158p:plain]
 
 では実行してみましょう！
 
