@@ -1,7 +1,7 @@
 # 12 Kogito Examples
 Kogito 0.9.1 がリリースされました！
 
-[image]
+[f:id:tokobayashi:20200423143925p:plain]
 
 別に切りのいい数字じゃないって？ や、そうなんですけど、0.9.1 はドキュメントや examples を整備して「いい感じに仕上げました」マイルストーンリリースなのです。今後もバージョン自体はどんどん上がっていくのですが(0.10.0 もう出た)、今まで様子見だったひともここらで手を出してみては？というところです。
 
@@ -37,14 +37,10 @@ curl -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -
 
 ソースコードを説明すると
 
-- RuleUnitQuery.drl
--- ルールを記述する DRL。ポイントは「unit LoanUnit;」という宣言です。これで LoanUnit クラスと組み合わせて、サービス全体を生成できるようにします。ルールの「/loanApplications[]」という記法は LoanUnit クラスの DataStore loanApplications からファクトを評価するということですが、通常の DRL での「LoanApplication()」パターンと同じだと思っていいです。また DRL に「query」も記述されています。これが上記テストで使用した REST エンドポイントを生成します。
-- LoanApplication.java
--- ローン申請ファクト
-- Applicant.java
--- 申請者情報。LoanApplication のただのプロパティです
-- LoanUnit.java
--- RuleUnitData を implements します。今までの Drools では使われていなかった（実際には存在していましたが）ルールユニットという仕組みです。仕組みといっても簡単にいうとルールとファクトを結び付けるもので、 DataStore というクラスでファクトをラップするだけです。「maxAmount」は DRL で global として扱われます。この情報を DRL 側に書いて、このクラスを不要にする記法もあります。
+- RuleUnitQuery.drl : ルールを記述する DRL。ポイントは「unit LoanUnit;」という宣言です。これで LoanUnit クラスと組み合わせて、サービス全体を生成できるようにします。ルールの「/loanApplications[]」という記法は LoanUnit クラスの DataStore loanApplications からファクトを評価するということですが、通常の DRL での「LoanApplication()」パターンと同じだと思っていいです。また DRL に「query」も記述されています。これが上記テストで使用した REST エンドポイントを生成します。
+- LoanApplication.java : ローン申請ファクト
+- Applicant.java : 申請者情報。LoanApplication のただのプロパティです
+- LoanUnit.java : RuleUnitData を implements します。今までの Drools では使われていなかった（実際には存在していましたが）ルールユニットという仕組みです。仕組みといっても簡単にいうとルールとファクトを結び付けるもので、 DataStore というクラスでファクトをラップするだけです。「maxAmount」は DRL で global として扱われます。この情報を DRL 側に書いて、このクラスを不要にする記法もあります。
 
 その他の必要なコードは quarkus:dev で生成されます。target/ の下を見てみると面白いでしょう。
 
@@ -68,10 +64,9 @@ curl -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -
 
 ソースコードは dmn ファイル1枚だけ！
 
-- Traffic Violation.dmn
--- DMN はエディターで閲覧、編集します。VSCode のエクテンションがおすすめです(https://docs.jboss.org/kogito/release/latest/html_single/#con-kogito-modelers_kogito-creating-running)。オンラインエディターもあります(https://kiegroup.github.io/kogito-online/#/)。開くとルールの構成が簡単に分かりますね。他のクラスが必要無いのは DMN 自体に型情報が定義されていること、また入出力は Map ベースで行っており、カスタム Java クラスが必要無いからです（カスタム Java クラスを用いた入出力も開発中）。
+- Traffic Violation.dmn : DMN はエディターで閲覧、編集します。VSCode のエクテンションがおすすめです(https://docs.jboss.org/kogito/release/latest/html_single/#con-kogito-modelers_kogito-creating-running)。オンラインエディターもあります(https://kiegroup.github.io/kogito-online/#/)。開くとルールの構成が簡単に分かりますね。他のクラスが必要無いのは DMN 自体に型情報が定義されていること、また入出力は Map ベースで行っており、カスタム Java クラスが必要無いからです（カスタム Java クラスを用いた入出力も開発中）。
 
-[image]
+[f:id:tokobayashi:20200423144022p:plain]
 
 ## process-script-example
 
@@ -89,14 +84,13 @@ curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d 
 
 簡単過ぎですかね。これをベースにプロセスを拡張していってもいいでしょう。こちらもソースは bpmn ファイル一枚のみ。
 
-- scripts.bpmn
--- BPMN も VSCode のエクテンションやオンラインエディターで閲覧、編集します。jBPM/BPMN 関連もまた後日詳しく書きたいなあー
+- scripts.bpmn : BPMN も VSCode のエクテンションやオンラインエディターで閲覧、編集します。jBPM/BPMN 関連もまた後日詳しく書きたいなあー
 
-[image]
+[f:id:tokobayashi:20200423144037p:plain]
 
 ## その他
 
-ruleunit-quarkus-example のデシジョンテーブル版 decisiontable-quarkus-example や、ルールとプロセスを融合した process-quarkus-example , process-business-rules-quarkus などなどあります。
+ruleunit-quarkus-example のデシジョンテーブル版 decisiontable-quarkus-example や、ルールとプロセスを融合した process-quarkus-example , process-business-rules-quarkus 、プランニングの process-optaplanner-springboot などなどあります。
 
 一番本格的なやつは kogito-travel-agency で、Infinispan による永続化、Kafka によるメッセージ連携、データを GraphQL で取得などさまざまな機能を体験できます。OpenShift にデプロイするにはドキュメントの以下のセクションを参照してください。
 
