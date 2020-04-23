@@ -90,7 +90,7 @@ curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d 
 
 ## その他
 
-ruleunit-quarkus-example のデシジョンテーブル版 decisiontable-quarkus-example や、ルールとプロセスを融合した process-quarkus-example , process-business-rules-quarkus 、プランニングの process-optaplanner-springboot などなどあります。
+ruleunit-quarkus-example のデシジョンテーブル版 decisiontable-quarkus-example や、ルールとプロセスを融合した process-business-rules-quarkus 、プランニングの process-optaplanner-springboot などなどあります。
 
 一番本格的なやつは kogito-travel-agency で、Infinispan による永続化、Kafka によるメッセージ連携、データを GraphQL で取得などさまざまな機能を体験できます。OpenShift にデプロイするにはドキュメントの以下のセクションを参照してください。
 
