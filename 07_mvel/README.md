@@ -32,17 +32,18 @@ Drools ではルールを簡便に書くために MVEL を内部的に利用し�
 以下のように eval という文法が使えます。
 
 ```java
-when
-  p1 : Parameter()
-  p2 : Parameter()
-  eval( p1.getList().containsKey( p2.getItem() ) )
+  dialect "mvel"
+  when
+    $p1 : Parameter()
+    $p2 : Parameter()
+    eval($p1.list.contains( $p2.item ))
 ```
 
-これは eval() 内部をまるごと MVEL で解釈し、true が返ればルールにマッチする、というものです。Java 的なロジックをゴリゴリ書けるので、一部で好まれるのですが、Drools エンジンからは最適化ができないのでパフォーマンス上おすすめしません。極力普通のフィールド制約で記述するのが Drools のパフォーマンスを上げるコツです。また、eval は近いうちに deprecated になるのではないかと言われています。
+これは eval() 内部をまるごと Java もしくは MVEL で解釈し、true が返ればルールにマッチする、というものです。上記のように dialect に "mvel" を宣言した場合、MVELで記述できます。 Java 的なロジックをゴリゴリ書けるので、一部で好まれるのですが、Drools エンジンからは最適化ができないのでパフォーマンス上おすすめしません。極力普通のフィールド制約で記述するのが Drools のパフォーマンスを上げるコツです。また、eval は近いうちに deprecated になるのではないかと言われています。
 
 3) RHS
 
-ルールの RHS (then の部分です)を MVEL を使って表記できます。その場合、
+ルールの RHS (then の部分です)を MVEL を使って表記できます。その場合、上記と同様
 
 ```java
   dialect "mvel"
