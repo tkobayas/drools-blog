@@ -106,7 +106,12 @@ Namespace と Name を指定して（エディタの Properties -> Definitions �
 入力データは Map で作成し、 DMNContext に set します。あとは dmnRuntime.evaluateAll() を呼ぶだけです。
 
 DMNResult から結果を取得できます。単純に String として表示するだけでも処理結果がわかるでしょう。
+
 ```
+$ mvn test
+
+...
+
 DMNResultImpl{context={
     ドライバー: {
         年齢: 34
