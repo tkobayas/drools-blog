@@ -29,73 +29,107 @@ git clone https://github.com/tkobayas/drools-blog.git
 
 今日のエントリはその中の 13_DMN です。お題はドライバーが交通違反した時の罰金＆免停です。
 
-プロジェクトの中身がめっちゃ少ない事に気付くでしょうか。実質 DMN を定義する 
+プロジェクトの中身がめっちゃ少ない事に気付くでしょうか。実質 DMN を定義する Traffic_Violation.dmn とそれを実行するテストケースの DMNTest.java だけです。ルールで使う型情報は Traffic_Violation.dmn の中に定義されています。
 
-https://github.com/tkobayas/drools-blog/blob/master/02_decisiontable/src/main/resources/org/example/point-calc.xls
+ところで DMN ファイルは xml ですが、直接編集する事を想定していません。編集用のエディターがあります。推奨は VSCode のエクステンション「DMN Editor」です。Extensions から検索して簡単にインストールできます。また、お手軽な Web 上のエディターもあります。
 
-を見てみましょう。上記画像と同じものです。中身を順番に説明していきます。
+https://kiegroup.github.io/kogito-online/#/
 
-まず前半は表共通の設定事項です。
+こちらの「Edit existing file」で、ファイルをアップロードしたり、「Open from source」に直接URL（例： https://github.com/tkobayas/drools-blog/blob/master/13_DMN/src/main/resources/Traffic_Violation.dmn） を突っ込んでも開けます。
 
-- 2行目: RuleSet の次のセルはパッケージ名です
-- 3行目: Import の次のセルは import するクラス名をカンマ区切りで並べます
-- 4行目: Notes の次のセルはただの説明です。ルールには反映されません
-- 6行目: RuleTable は半角スペース空けて、同じセルに表の名前を書きます。この名前が生成される各ルールのプリフィックスになります
-- 7行目: 条件部は「CONDITION」、結果部は「ACTION」と記入します。DRLにおける 「when」「then」に相当します。必要に応じて何列でも追加できます。
-- 8行目: 「CONDITION」の場合のみ、条件ファクトを指定します
-- 9行目: 「CONDITION」の場合は、上記ファクトの制約条件を記入します。テンプレートの挿入変数がひとつの場合は「$param」、複数の場合は「$1」「$2」...と書きます。「ACTION」の場合は「then」で実行したい Java コードを書きます。同様にテンプレートの挿入変数が使えます。
+さて、DMN Editor で開くとこんな感じです。
 
-後半が実際にテンプレートに挿入する値となります。
+[image01]
 
-- 10行目: コメント用。以下のセルに何を入れればよいのかわかりやすく書きましょう。
-- 11行目: ここ以降が1行あたり1ルールに相当します。セルの値が上記9行目のテンプレートに適用されます。複数変数の場合はカンマ区切りです。空欄の場合はその列は丸ごと使用されません。B列も単なるコメントです。
-- 12行目: 以下同様
+下の2つの楕円「ドライバー」「違反」が Input Data、つまりルールに入力されるデータで、2つの長方形「罰金」「免許停止」が Decision、つまりルールです。矢印はデータの依存関係を表します。例えば「罰金」ルールの結果は「免許停止」ルールの入力にもなる、ということです。
 
-次に Java コードを見てみましょう。
+「罰金」をクリックし、その左側に出るアイコン Edit をクリックしてみてください。デシジョンテーブルが開きますね。
 
-https://github.com/tkobayas/drools-blog/blob/master/02_decisiontable/src/test/java/org/example/DroolsTest.java
+[image02]
 
-```java
-        // デフォルトの dateformat は "dd-MMM-yyyy" (例: "01-Apr-2019") なので変更する
-       System.setProperty("drools.dateformat", "yyyy-MM-dd");
-```
-まず日付フォーマットは日本向け ("yyyy-MM-dd") に変更しておきます。ソースコメントのとおりです。
+見たまんま、違反データの中身に応じて、「罰金」データを生成します。
 
-```java
-        SpreadsheetCompiler compiler = new SpreadsheetCompiler();
-        String drl = compiler.compile(ks.getResources().newClassPathResource("org/example/point-calc.xls").getInputStream(), InputType.XLS);
-        System.out.println(drl);
-```
+同様に、「免許停止」を Edit で開くと
 
-これはデバッグ用コードで、本当は省いても構いません。このコードにより、デシジョンテーブルから変換された DRL を見る事ができます。ルールのコンパイルエラーなどがあったときには重宝します。
+[image03]
+
+今度はデシジョンテーブルではなく、式が記述されています。これは FEEL という言語で、簡単に計算等のロジックを記述できます。最終的に「免許停止」が "はい" か "いいえ" を出力する、というのが分かりますね。
+
+あと、エディタの上部にある「Data Types」をクリックしてみましょう。
+
+[image04]
+
+これがこの DMN の中で使う型情報です。例えば「違反」には tViolation という型を定義して、判定に必要なフィールドを持たせています。
+
+次にこれを実行する Java コードを見てみましょう。
+
+https://github.com/tkobayas/drools-blog/blob/master/13_DMN/src/test/java/org/example/DMNTest.java
+
+ttps://github.com/tkobayas/drools-blog/blob/master/02_decisiontable/src/test/java/org/example/DroolsTest.java
 
 ```java
-        KieContainer kcontainer = ks.getKieClasspathContainer();
-        KieSession ksession = kcontainer.newKieSession();
-        ...
-        ksession.insert(john);
-        ...
-        ksession.insert(order);
-        ...
-        int fired = ksession.fireAllRules();
+        final KieServices ks = KieServices.Factory.get();
+        final KieContainer kieContainer = KieHelper.getKieContainer(
+                                                                    ks.newReleaseId("com.sample", "dmn-example-" + UUID.randomUUID(), "1.0"),
+                                                                    ks.getResources().newClassPathResource("Traffic_Violation.dmn", DMNTest.class));
+
+        DMNRuntime dmnRuntime = kieContainer.newKieSession().getKieRuntime(DMNRuntime.class);
+```
+DRL と同じように KieServices や KieContainer を使いますが、最終的に利用するメインのオブジェクトは KieSession ではなく DMNRuntime になります。
+
+
+```java
+        final DMNModel dmnModel = dmnRuntime.getModel("https://github.com/kiegroup/drools/kie-dmn/_A4BCA8B8-CF08-433F-93B2-A2598F19ECFF", "Traffic Violation");
 ```
 
-あとは HelloWorld と同じですね。
+Namespace と Name を指定して（エディタの Properties -> Definitions を見れば分かります）、DMNModel を取得します。これが Traffic_Violation.dmn をオブジェクト化したものです。
 
-さて、実際に動かしてみましょう。
+```java
+        final DMNContext context = DMNFactory.newContext();
 
-ジョンが20万円のギターを買いました。メンバーズカードはシルバーなので 2% 還元。また、この4月に入会したので「春の特別キャンペーン」が適用され、還元率 0.5 アップの 2.5%。更に特別ポイントが 1000 ポイント加算されます。
+        Map<String, Object> driverMap = new HashMap<>();
+        driverMap.put("名前", "太郎");
+        driverMap.put("年齢", 34);
+        driverMap.put("ポイント", 18);
+        context.set("ドライバー", driverMap);
 
+        Map<String, Object> violationMap = new HashMap<>();
+        violationMap.put("日付", LocalDate.now());
+        violationMap.put("タイプ", "速度超過");
+        violationMap.put("制限速度", 100);
+        violationMap.put("実際の速度", 120);
+        context.set("違反", violationMap);
+
+        final DMNResult dmnResult = dmnRuntime.evaluateAll(dmnModel, context);
 ```
-$ cd 02_decisiontable
-$ mvn clean test
 
-...
+入力データは Map で作成し、 DMNContext に set します。あとは dmnRuntime.evaluateAll() を呼ぶだけです。
 
-+++ ルール実行開始 +++
-insert : Person [name=ジョン, memberCreatedAt=2019-04-11, card=SILVER]
-insert : Order [consumer=ジョン, itemName=ギター, itemPrice=200000]
-======================================
-お買い上げにより、 6000 ポイントが付与されます
+DMNResult から結果を取得できます。単純に String として表示するだけでも処理結果がわかるでしょう。
 ```
-200000*0.025+1000=6000ですね。
+DMNResultImpl{context={
+    ドライバー: {
+        年齢: 34
+        名前: 太郎
+        ポイント: 18
+    }
+    違反: {
+        実際の速度: 120
+        制限速度: 100
+        日付: 2021-01-16
+        タイプ: 速度超過
+    }
+    罰金: {
+        金額: 500
+        ポイント: 3
+    }
+    免許停止: はい
+}
+, messages=org.kie.dmn.core.util.DefaultDMNMessagesManager@695a69a1}
+```
+
+今日はここまで！
+
+DMN の書き方についてはこのドキュメントがおすすめです。
+
+https://access.redhat.com/documentation/ja-jp/red_hat_decision_manager/7.9/html-single/getting_started_with_red_hat_decision_manager/index#assembly-getting-started-decision-services
