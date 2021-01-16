@@ -1,7 +1,7 @@
 # 13 DMN
 DMN (Decision Model and Notation) とは OMG (Object Management Group) で策定されたビジネスルールについての仕様です。
 
-https://www.omg.org/dmn/
+[https://www.omg.org/dmn/]
 
 ビジネスプロセス仕様 BPMN (Business Process Model and Notation) のルール版だと思ってよいでしょう。
 
@@ -10,12 +10,14 @@ https://www.omg.org/dmn/
 ですので DRL をやってきた人にとっては新しい記述法を覚えなければいけないわけで、どのようなメリットがあるかが最初の関心事でしょう。初めて Drools を使う人であれば DRL か DMN のどっちを使えばいいのか？という疑問が出ますね。では以下に簡単に説明します。
 
 DMN のメリット
+
 * ルールがビジュアル化される
 * 標準仕様である
 
 DMN のデメリット (DRL と比較した場合)
+
 * ステートレス実行のみ
-* 推論(Inference)が使えない [https://tokobayashi.hatenablog.com/entry/2019/05/06/160337]
+* 推論(Inference)が使えない。 (参照: [https://tokobayashi.hatenablog.com/entry/2019/05/06/160337:title] )
 
 といったところです。
 
@@ -33,39 +35,37 @@ git clone https://github.com/tkobayas/drools-blog.git
 
 ところで DMN ファイルは xml ですが、直接編集する事を想定していません。編集用のエディターがあります。推奨は VSCode のエクステンション「DMN Editor」です。Extensions から検索して簡単にインストールできます。また、お手軽な Web 上のエディターもあります。
 
-https://kiegroup.github.io/kogito-online/#/
+[https://kiegroup.github.io/kogito-online/#/]
 
 こちらの「Edit existing file」で、ファイルをアップロードしたり、「Open from source」に直接URL（例： https://github.com/tkobayas/drools-blog/blob/master/13_DMN/src/main/resources/Traffic_Violation.dmn） を突っ込んでも開けます。
 
 さて、DMN Editor で開くとこんな感じです。
 
-[image01]
+[f:id:tokobayashi:20210116145657p:plain]
 
 下の2つの楕円「ドライバー」「違反」が Input Data、つまりルールに入力されるデータで、2つの長方形「罰金」「免許停止」が Decision、つまりルールです。矢印はデータの依存関係を表します。例えば「罰金」ルールの結果は「免許停止」ルールの入力にもなる、ということです。
 
 「罰金」をクリックし、その左側に出るアイコン Edit をクリックしてみてください。デシジョンテーブルが開きますね。
 
-[image02]
+[f:id:tokobayashi:20210116145740p:plain]
 
 見たまんま、違反データの中身に応じて、「罰金」データを生成します。
 
 同様に、「免許停止」を Edit で開くと
 
-[image03]
+[f:id:tokobayashi:20210116145756p:plain]
 
 今度はデシジョンテーブルではなく、式が記述されています。これは FEEL という言語で、簡単に計算等のロジックを記述できます。最終的に「免許停止」が "はい" か "いいえ" を出力する、というのが分かりますね。
 
 あと、エディタの上部にある「Data Types」をクリックしてみましょう。
 
-[image04]
+[f:id:tokobayashi:20210116145814p:plain]
 
 これがこの DMN の中で使う型情報です。例えば「違反」には tViolation という型を定義して、判定に必要なフィールドを持たせています。
 
 次にこれを実行する Java コードを見てみましょう。
 
-https://github.com/tkobayas/drools-blog/blob/master/13_DMN/src/test/java/org/example/DMNTest.java
-
-ttps://github.com/tkobayas/drools-blog/blob/master/02_decisiontable/src/test/java/org/example/DroolsTest.java
+[https://github.com/tkobayas/drools-blog/blob/master/13_DMN/src/test/java/org/example/DMNTest.java]
 
 ```java
         final KieServices ks = KieServices.Factory.get();
@@ -109,7 +109,6 @@ DMNResult から結果を取得できます。単純に String として表示�
 
 ```
 $ mvn test
-
 ...
 
 DMNResultImpl{context={
@@ -133,8 +132,10 @@ DMNResultImpl{context={
 , messages=org.kie.dmn.core.util.DefaultDMNMessagesManager@695a69a1}
 ```
 
+もともとポイントが18だった太郎さんはスピード違反で3ポイントもらって、合計20以上になったので免停をくらいました。
+
+DMN の書き方についてはあまり説明できませんでしたね。次のステップとしてはこのドキュメントがおすすめです。
+
+[https://access.redhat.com/documentation/ja-jp/red_hat_decision_manager/7.9/html-single/getting_started_with_red_hat_decision_manager/index#assembly-getting-started-decision-services:title]
+
 今日はここまで！
-
-DMN の書き方についてはこのドキュメントがおすすめです。
-
-https://access.redhat.com/documentation/ja-jp/red_hat_decision_manager/7.9/html-single/getting_started_with_red_hat_decision_manager/index#assembly-getting-started-decision-services
