@@ -28,19 +28,19 @@ export QUARKUS_LANGCHAIN4J_OPENAI_HOTMODEL_API_KEY=demo
 
 上記の環境変数 `QUARKUS_LANGCHAIN4J_OPENAI_API_KEY` と `QUARKUS_LANGCHAIN4J_OPENAI_HOTMODEL_API_KEY` は、OpenAI の API キーです。LangChain4Jによる無料のデモキーを使っていますが、自分のキーを使うこともできます。デモキーはデモンストレーション用であり、制限がありますが、このサンプルアプリケーションでは十分です。
 
-アプリケーションが起動したら、ブラウザで http://localhost:8080 にアクセスしてください。以下の画面が表示されます。
+アプリケーションが起動したら、ブラウザで http://localhost:8080 にアクセスしてください。以下のメニュー画面が表示されます。
 
-[image]
+[f:id:tokobayashi:20240805144818p:plain]
 
 日本語化しているのは3つめの Airline refund chatbot だけなので、そのリンクをクリックしてください。
 
 チャット画面が表示されます。自分が乗ったフライトが遅延して到着したと想定して、返金されるかチャットボットに尋ねてみましょう。
 
-[image]
+[f:id:tokobayashi:20240805144836p:plain]
 
 ## 実装
 
-このサンプルアプリケーションは、Quarkus と Drools と LangChain4J を使っています。LangChain4J は様々な LLM を使うためのライブラリです。このブランチ `openai-ja` では OpenAI の GPT-3.5-turbo を使っています。 main ブランチでは Ollama をローカルにインストールして使うよう設定されています。興味があれば、README.md を参照してください。
+このサンプルアプリケーションは、Quarkus と Drools と LangChain4J を使っています。LangChain4J は様々な LLM を使うためのライブラリです。このブランチ `openai-ja` では OpenAI の GPT-3.5-turbo を使っています。 `main` ブランチでは Ollama をローカルにインストールして使うよう設定されています。興味があれば、README.md を参照してください。
 
 Quarkus は REST エンドポイントを公開することに加え、`quarkus-langchain4j-openai` で　LangChain4J　をさらに簡単に使うための機能を提供しています。様々な設定が `application.properties` に集約されています。
 
@@ -103,9 +103,9 @@ end
 ## さらに詳しく
 - こちらの動画は、Nicole Prentzas と Mario Fusco による機械学習とシンボリック推論（= ルールエンジン）の組み合わせについてのセッションです。上記のチャットボットに加え、「機械学習からルールを生成、改善する」というユースケースにも触れています。
   - [VDTRIESTE24] Machine Learning + Symbolic Reasoning - Conference by Nicole Prentzas and Mario Fusco
-https://www.youtube.com/watch?v=rCxQmxObZS4
+    https://www.youtube.com/watch?v=rCxQmxObZS4
 
-- ニューラルネットワークとシンボリックAIは　Neuro-symbolic AI　と呼ばれ研究されています。
+- ニューラルネットワークとシンボリックAIの組み合わせは　Neuro-symbolic AI　と呼ばれ研究されています。
   - https://en.wikipedia.org/wiki/Neuro-symbolic_AI
 
 - LLM とルールエンジンの組み合わせ方のバリエーションについて書かれている記事です。
