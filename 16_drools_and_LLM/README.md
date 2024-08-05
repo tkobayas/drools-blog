@@ -57,7 +57,7 @@ public interface CustomerChatService {
 
     @SystemMessage("<<SYS>>あなたは航空会社のチャットボットです。あなたの目的は、質問をして顧客の情報を収集することです</SYS>>")
     @UserMessage("""
-        顧客の名前と年齢にについて質問してください。
+        顧客の名前と年齢について質問してください。
 
         +++
         {message}
@@ -68,7 +68,7 @@ public interface CustomerChatService {
 }
 ```
 
-また２つの Extractor があります。これは LLM の返答から Java オブジェクトにマッピングして生成するためのクラスです。
+また２つの Extractor があります。これは LLM の返答から、データを Java オブジェクトにマッピングして生成するためのクラスです。
 
 ```java
 @RegisterAiService(chatMemoryProviderSupplier = StatelessChat.MemorySupplier.class)
@@ -100,4 +100,13 @@ end
 
 極めて明解ですね。明示的なルールがあるのだから、ここは LLM ではなく Drools が処理します。
 
-TODO: IBM の記事参照
+## さらに詳しく
+- こちらの動画は、Nicole Prentzas と Mario Fusco による機械学習とシンボリック推論（= ルールエンジン）の組み合わせについてのセッションです。上記のチャットボットに加え、「機械学習からルールを生成、改善する」というユースケースにも触れています。
+  - [VDTRIESTE24] Machine Learning + Symbolic Reasoning - Conference by Nicole Prentzas and Mario Fusco
+https://www.youtube.com/watch?v=rCxQmxObZS4
+
+- ニューラルネットワークとシンボリックAIは　Neuro-symbolic AI　と呼ばれ研究されています。
+  - https://en.wikipedia.org/wiki/Neuro-symbolic_AI
+
+- LLM とルールエンジンの組み合わせ方のバリエーションについて書かれている記事です。
+  - https://medium.com/@pierrefeillet/approaches-in-using-generative-ai-for-business-automation-the-path-to-comprehensive-decision-3dd91c57e38f
